@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Food | Replateo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefcfb;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="sticky top-0 z-50 bg-white shadow-lg">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="../replateo/index.html" class="flex-shrink-0 flex items-center">
+                    <img src="../assets/Logo.png" alt="Replateo Logo" class="h-12 w-auto">
+                </a>
+
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="../pages/about.html" class="text-gray-600 hover:text-orange-600 transition duration-150">About</a>
+                    <a href="../replateo/index.html#good-food" class="text-gray-600 hover:text-orange-600 transition duration-150">Good Food</a>
+                    <a href="../replateo/index.html#bad-food" class="text-gray-600 hover:text-orange-600 transition duration-150">Bad Food</a>
+                    <a href="../replateo/index.html#directory" class="text-gray-600 hover:text-orange-600 transition duration-150">Directory</a>
+                    <a href="../replateo/index.html#contact" class="text-gray-600 hover:text-orange-600 transition duration-150">Support</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-white bg-orange-600 hover:bg-orange-700 py-2 px-4 rounded-lg text-sm font-medium shadow-md transition duration-150">
+                        Dashboard
+                    </a>
+                    <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-orange-600 focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-inner pb-4 text-sm font-medium">
+            <a href="../pages/about.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-50">About</a>
+            <a href="../replateo/index.html#good-food" class="block px-4 py-2 text-gray-700 hover:bg-gray-50">Good Food</a>
+            <a href="../replateo/index.html#bad-food" class="block px-4 py-2 text-gray-700 hover:bg-gray-50">Bad Food</a>
+            <a href="../replateo/index.html#directory" class="block px-4 py-2 text-gray-700 hover:bg-gray-50">Directory</a>
+            <a href="../replateo/index.html#contact" class="block px-4 py-2 text-gray-700 hover:bg-gray-50">Support</a>
+        </div>
+    </header>
+
+    <main class="min-h-screen flex items-center py-12">
+        <div class="max-w-2xl mx-auto w-full px-4">
+            <div id="donate-content" class="hidden">
+                <div class="text-center mb-8">
+                    <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Share Your Surplus Food</h1>
+                    <p class="text-xl text-gray-600">Help feed communities by donating your edible surplus food</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-xl">
+                    <form id="donate-form" class="space-y-6">
+                        <div>
+                            <label for="food-type" class="block text-sm font-medium text-gray-700 mb-1">Food Type</label>
+                            <select id="food-type" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500">
+                                <option value="">Select food type</option>
+                                <option value="fruits-vegetables">Fruits & Vegetables</option>
+                                <option value="grains-bread">Grains & Bread</option>
+                                <option value="dairy">Dairy Products</option>
+                                <option value="meat">Meat & Poultry</option>
+                                <option value="prepared-meals">Prepared Meals</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantity (approximate)</label>
+                            <input type="text" id="quantity" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="e.g., 10 kg, 50 servings">
+                        </div>
+                        <div>
+                            <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Pickup Location</label>
+                            <input type="text" id="location" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="Address or general area">
+                        </div>
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea id="description" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="Additional details about the food, expiry date, etc."></textarea>
+                        </div>
+                        <div>
+                            <label for="contact-info" class="block text-sm font-medium text-gray-700 mb-1">Contact Information</label>
+                            <input type="text" id="contact-info" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="Phone number or preferred contact method">
+                        </div>
+                        <div id="error-message" class="text-sm text-red-500 hidden"></div>
+                        <button type="submit" id="submit-btn" class="w-full py-3 text-lg font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition duration-300">
+                            Submit Donation
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="donate-unauthenticated" class="text-center">
+                <i data-lucide="lock" class="w-12 h-12 text-red-500 mx-auto mb-4"></i>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Authentication Required</h3>
+                <p class="text-gray-600 mb-6">Please log in to submit a food donation.</p>
+                <a href="login.html" class="bg-orange-600 text-white py-2 px-6 rounded-xl hover:bg-orange-700 transition">Login</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-lg font-semibold text-orange-400 mb-2">Replateo</p>
+            <p class="text-sm text-gray-400">&copy; 2025 Replateo Innovations. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "replateo.firebaseapp.com",
+            projectId: "replateo",
+            storageBucket: "replateo.appspot.com",
+            messagingSenderId: "YOUR_ID",
+            appId: "YOUR_APP_ID",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let userId = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userId = user.uid;
+                document.getElementById('donate-content').classList.remove('hidden');
+                document.getElementById('donate-unauthenticated').classList.add('hidden');
+            } else {
+                document.getElementById('donate-content').classList.add('hidden');
+                document.getElementById('donate-unauthenticated').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('donate-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!userId) {
+                alert('Please log in to submit a donation.');
+                return;
+            }
+
+            const foodType = document.getElementById('food-type').value;
+            const quantity = document.getElementById('quantity').value;
+            const location = document.getElementById('location').value;
+            const description = document.getElementById('description').value;
+            const contactInfo = document.getElementById('contact-info').value;
+            const errorMessage = document.getElementById('error-message');
+            const submitBtn = document.getElementById('submit-btn');
+
+            errorMessage.classList.add('hidden');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+
+            try {
+                await addDoc(collection(db, `users/${userId}/donations`), {
+                    foodType,
+                    quantity,
+                    location,
+                    description,
+                    contactInfo,
+                    status: 'pending',
+                    createdAt: new Date()
+                });
+
+                alert('Donation submitted successfully! We will contact you soon.');
+                document.getElementById('donate-form').reset();
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                errorMessage.textContent = 'Error submitting donation. Please try again.';
+                errorMessage.classList.remove('hidden');
+                console.error("Donation submission error:", error);
+            } finally {
+                submitBtn.textContent = 'Submit Donation';
+                submitBtn.disabled = false;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('mobile-menu-button').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                });
+            });
+        });
+
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

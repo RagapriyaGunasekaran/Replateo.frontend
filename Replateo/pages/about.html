@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Replateo - Smart Food Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #fefcfb; 
+        }
+        .section-padding {
+            padding: 4rem 1.5rem;
+        }
+        @media (min-width: 1024px) {
+            .section-padding {
+                padding: 6rem 4rem;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="sticky top-0 z-50 bg-white shadow-lg">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="../replateo/index.html" class="flex-shrink-0 flex items-center">
+                    <img src="../assets/Logo.png" alt="Replateo Logo" class="h-12 w-auto">
+                </a>
+                
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="../replateo/index.html#good-food" class="text-gray-600 hover:text-orange-600 transition duration-150">Good Food</a>
+                    <a href="../replateo/index.html#bad-food" class="text-gray-600 hover:text-orange-600 transition duration-150">Bad Food</a>
+                    <a href="../replateo/index.html#directory" class="text-gray-600 hover:text-orange-600 transition duration-150">Directory</a>
+                    <a href="../replateo/index.html#contact" class="text-gray-600 hover:text-orange-600 transition duration-150">Support</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="../replateo/index.html" class="text-white bg-orange-600 hover:bg-orange-700 py-2 px-4 rounded-lg text-sm font-medium shadow-md transition duration-150">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section-padding bg-white">
+            <div class="max-w-5xl mx-auto text-center">
+                <h1 class="text-5xl font-extrabold text-gray-900 mb-6">About Replateo</h1>
+                <p class="text-xl text-gray-600 mb-12">Empowering communities to reduce food waste through smart management, sharing, and recycling.</p>
+            </div>
+        </section>
+
+        <section class="section-padding bg-orange-50">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6 text-center">Our Mission</h2>
+                <p class="text-lg text-gray-600 mb-8 text-center">
+                    Replateo is a platform dedicated to smart food management, aiming to eliminate food waste by connecting surplus edible food with those in need through donations or discounted sales, and ensuring non-edible waste is responsibly recycled via composting or industrial partners. We foster sustainability and build healthier communities.
+                </p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-xl">
+                        <i data-lucide="heart" class="w-12 h-12 text-orange-600 mx-auto mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-3">Reducing Waste</h3>
+                        <p class="text-gray-600">We help redistribute surplus food that would otherwise go to waste, feeding communities and minimizing environmental impact.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-xl">
+                        <i data-lucide="recycle" class="w-12 h-12 text-orange-600 mx-auto mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-3">Sustainable Recycling</h3>
+                        <p class="text-gray-600">For non-edible waste, we connect users with recycling facilities and partners to turn waste into resources like energy or fertilizer.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding bg-white">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6 text-center">How It Works</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <i data-lucide="upload" class="w-16 h-16 text-orange-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">Share Surplus Food</h3>
+                        <p class="text-gray-600">List edible surplus food for donation or discounted sale to NGOs, food banks, or individuals.</p>
+                    </div>
+                    <div class="text-center">
+                        <i data-lucide="search" class="w-16 h-16 text-orange-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">Find Partners</h3>
+                        <p class="text-gray-600">Browse our directory of verified partners for donations or recycling services.</p>
+                    </div>
+                    <div class="text-center">
+                        <i data-lucide="check-circle" class="w-16 h-16 text-orange-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">Make an Impact</h3>
+                        <p class="text-gray-600">Contribute to a sustainable future by reducing waste and supporting your community.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding bg-gray-900 text-white">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-4xl font-extrabold text-white mb-6">Join the Movement</h2>
+                <p class="text-xl text-gray-400 mb-8">Be part of the solution to food waste. Start sharing, recycling, and sustaining today.</p>
+                <a href="../replateo/index.html" class="bg-orange-600 text-white py-3 px-8 rounded-xl hover:bg-orange-700 transition duration-300 shadow-xl">
+                    Get Started
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-lg font-semibold text-orange-400 mb-2">Replateo</p>
+            <p class="text-sm text-gray-400">&copy; 2025 Replateo Innovations. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
