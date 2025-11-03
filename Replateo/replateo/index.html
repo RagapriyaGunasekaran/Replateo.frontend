@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replateo - Smart Food Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #fefcfb; 
+        }
+        .section-padding {
+            padding: 4rem 1.5rem;
+        }
+        @media (min-width: 1024px) {
+            .section-padding {
+                padding: 6rem 4rem;
+            }
+        }
+        .modal-enter {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .modal-exit {
+            opacity: 1;
+        }
+        .modal-exit-active {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+>
+    <header class="sticky top-0 z-50 bg-white shadow-lg">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="#home" class="flex-shrink-0 flex items-center" onclick="route('#home')">
+                    <span class="text-2xl font-bold text-orange-600">Replateo</span>
+                </a>
+                
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#good-food" class="text-gray-600 hover:text-orange-600 transition duration-150" onclick="route('#good-food')">Good Food</a>
+                    <a href="#bad-food" class="text-gray-600 hover:text-orange-600 transition duration-150" onclick="route('#bad-food')">Bad Food</a>
+                    <a href="#directory" class="text-gray-600 hover:text-orange-600 transition duration-150" onclick="route('#directory')">Directory</a>
+                    <a href="#contact" class="text-gray-600 hover:text-orange-600 transition duration-150" onclick="route('#contact')">Support</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="dashboard-link" class="hidden text-white bg-orange-600 hover:bg-orange-700 py-2 px-4 rounded-lg text-sm font-medium shadow-md transition duration-150" onclick="route('#dashboard')">
+                        Dashboard
+                    </button>
+                    <button id="auth-button" class="text-white bg-orange-600 hover:bg-orange-700 py-2 px-4 rounded-lg text-sm font-medium shadow-md transition duration-150" onclick="openAuthModal()">
+                        Login / Register
+                    </button>
+                    <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-orange-600 focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-inner pb-4 text-sm font-medium">
+            <a href="#good-food" class="block px-4 py-2 text-gray-700 hover:bg-gray-50" onclick="route('#good-food')">Good Food</a>
+            <a href="#bad-food" class="block px-4 py-2 text-gray-700 hover:bg-gray-50" onclick="route('#bad-food')">Bad Food</a>
+            <a href="#directory" class="block px-4 py-2 text-gray-700 hover:bg-gray-50" onclick="route('#directory')">Directory</a>
+            <a href="#contact" class="block px-4 py-2 text-gray-700 hover:bg-gray-50" onclick="route('#contact')">Support</a>
+        </div>
+    </header>
+
+    <main id="app-content">
+        <section class="min-h-screen flex items-center section-padding bg-white" id="home">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <span class="inline-block bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Fighting Food Waste Together</span>
+                    <h1 class="text-5xl lg:text-6xl font-extrabold leading-tight mb-6 text-gray-900">
+                        Zero Food Waste: <span class="text-orange-600">Share, Recycle, Sustain.</span>
+                    </h1>
+                    <p class="text-lg text-gray-500 mb-8 max-w-lg mx-auto md:mx-0">
+                        Our mission is to connect surplus food with those who need it and ensure non-edible waste is responsibly recycled, fostering a healthier, more sustainable community.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#good-food" onclick="route('#good-food')" class="px-8 py-3 text-lg font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition duration-300 shadow-xl shadow-orange-200 text-center">
+                            I Have Food to Share
+                        </a>
+                        <a href="#bad-food" onclick="route('#bad-food')" class="px-8 py-3 text-lg font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition duration-300 shadow-md text-center">
+                            I Need to Recycle
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hidden md:block">
+                    <svg class="w-full h-auto rounded-xl shadow-2xl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+                        <rect width="800" height="500" fill="#FFFBEB" rx="20"/>
+                        <path d="M400 250 L400 250 L400 150 A100 100 0 1 1 400 350 L400 250 Z" fill="#F97316" opacity="0.1"/>
+                        <path d="M400 150 A100 100 0 1 1 400 350 A100 100 0 1 1 400 150" stroke="#F97316" stroke-width="15" fill="none"/>
+                        <circle cx="300" cy="250" r="50" fill="#F97316"/>
+                        <text x="300" y="260" font-size="24" font-family="Inter, sans-serif" fill="#FFF" text-anchor="middle">Share</text>
+                        <circle cx="500" cy="250" r="50" fill="#F97316"/>
+                        <text x="500" y="260" font-size="24" font-family="Inter, sans-serif" fill="#FFF" text-anchor="middle">Cycle</text>
+                        <text x="400" y="450" font-size="30" font-family="Inter, sans-serif" fill="#F97316" text-anchor="middle">Sustainable Food Loop</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section class="hidden section-padding bg-orange-50" id="good-food">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6">Manage Surplus Edible Food</h2>
+                <p class="text-xl text-gray-600 mb-12">Connect food that is safe for consumption with those who can use it—whether through donation or a discounted sale.</p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-orange-500">
+                        <i data-lucide="hand-heart" class="w-10 h-10 text-orange-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">Donation</h3>
+                        <p class="text-gray-600 mb-4">Give your surplus food directly to local NGOs and charities for free.</p>
+                        <button class="bg-orange-600 text-white py-2 px-6 rounded-lg hover:bg-orange-700 transition" onclick="alertPlaceholder('Donation form will open')">Start Donation</button>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-orange-500">
+                        <i data-lucide="tag" class="w-10 h-10 text-orange-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">Discounted Sale</h3>
+                        <p class="text-gray-600 mb-4">List items for individuals or businesses to purchase at a reduced rate.</p>
+                        <button class="bg-orange-600 text-white py-2 px-6 rounded-lg hover:bg-orange-700 transition" onclick="alertPlaceholder('Sale listing form will open')">List for Sale</button>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-orange-500">
+                        <i data-lucide="upload-cloud" class="w-10 h-10 text-orange-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">Upload Listing</h3>
+                        <p class="text-gray-600 mb-4">Upload details and photos of your available good food items now.</p>
+                        <button class="bg-gray-300 text-gray-700 py-2 px-6 rounded-lg cursor-not-allowed">View Listings</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="hidden section-padding bg-white" id="bad-food">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6">Responsible Non-Edible Food Waste</h2>
+                <p class="text-xl text-gray-600 mb-12">For food that cannot be consumed, we provide avenues for recycling and composting.</p>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg border-t-4 border-gray-400">
+                        <i data-lucide="recycle" class="w-10 h-10 text-gray-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">Recycling & Composting</h3>
+                        <p class="text-gray-600 mb-4">Find local municipal or commercial recycling facilities near you that accept food waste.</p>
+                        <button class="bg-gray-700 text-white py-2 px-6 rounded-lg hover:bg-gray-800 transition" onclick="route('#directory')">Find Recyclers</button>
+                    </div>
+
+                    <div class="bg-gray-50 p-6 rounded-2xl shadow-lg border-t-4 border-gray-400">
+                        <i data-lucide="factory" class="w-10 h-10 text-gray-600 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">Sell to Decomposers (Anaerobic Digestion)</h3>
+                        <p class="text-gray-600 mb-4">Connect with industrial partners who process large volumes of waste into energy or fertilizer.</p>
+                        <button class="bg-gray-700 text-white py-2 px-6 rounded-lg hover:bg-gray-800 transition" onclick="alertPlaceholder('Industrial partner sign-up form will open')">Partner Sign-up</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="hidden min-h-screen section-padding bg-white" id="dashboard">
+            <div class="max-w-5xl mx-auto">
+                <div id="dashboard-content" class="p-8 bg-orange-50 rounded-2xl shadow-xl text-center">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Welcome Back, <span id="user-name">User!</span></h2>
+                    <p class="text-xl text-orange-700 mb-8">Your Replateo Management Hub.</p>
+                    
+                    <div id="dashboard-status" class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                        <div class="bg-white p-5 rounded-lg shadow-md border-b-4 border-green-500">
+                            <p class="text-sm text-gray-500">Donations Posted</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-1">3</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg shadow-md border-b-4 border-blue-500">
+                            <p class="text-sm text-gray-500">Recycle Disposals</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-1">5</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg shadow-md border-b-4 border-orange-500">
+                            <p class="text-sm text-gray-500">Pending Actions</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-1">1</p>
+                        </div>
+                    </div>
+
+                    <p class="mt-8 text-gray-600">
+                        <a href="#" class="text-orange-600 hover:underline font-medium" onclick="signOutUser()">Click here to safely Sign Out.</a>
+                    </p>
+                </div>
+                
+                <div id="dashboard-unauthenticated" class="hidden p-12 bg-white rounded-2xl shadow-xl text-center">
+                    <i data-lucide="lock" class="w-12 h-12 text-red-500 mx-auto mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Access Denied</h3>
+                    <p class="text-gray-600 mb-6">Please log in or register to view your personal dashboard.</p>
+                    <button class="bg-orange-600 text-white py-2 px-6 rounded-xl hover:bg-orange-700 transition" onclick="openAuthModal()">Login / Register</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="hidden section-padding bg-orange-50" id="directory">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6 text-center">Find Partners Near You</h2>
+                <p class="text-xl text-gray-600 mb-12 text-center">Browse our curated list of authenticated NGOs, food banks, and certified food waste recyclers.</p>
+
+                <div id="directory-list" class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-center hover:shadow-xl transition duration-300">
+                        <div>
+                            <p class="text-xl font-bold text-gray-900">Hope Community Food Bank</p>
+                            <p class="text-gray-500">Type: NGO / Food Rescue | Needs: Fresh Produce</p>
+                        </div>
+                        <button class="bg-orange-500 text-white py-2 px-4 rounded-lg text-sm hover:bg-orange-600 transition">View Details</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-center hover:shadow-xl transition duration-300">
+                        <div>
+                            <p class="text-xl font-bold text-gray-900">GreenCycle Composting Services</p>
+                            <p class="text-gray-500">Type: Commercial Recycler | Accepts: Bad Food / Organics</p>
+                        </div>
+                        <button class="bg-orange-500 text-white py-2 px-4 rounded-lg text-sm hover:bg-orange-600 transition">View Details</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg flex justify-between items-center hover:shadow-xl transition duration-300">
+                        <div>
+                            <p class="text-xl font-bold text-gray-900">City Homeless Shelter</p>
+                            <p class="text-gray-500">Type: NGO / Shelter | Needs: Prepared Meals</p>
+                        </div>
+                        <button class="bg-orange-500 text-white py-2 px-4 rounded-lg text-sm hover:bg-orange-600 transition">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="hidden section-padding bg-gray-900 text-white" id="contact">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-white mb-4">Need Support? Get In Touch</h2>
+                    <p class="text-xl text-gray-400">Our dedicated support team is ready to help you with platform issues, partnerships, or general inquiries.</p>
+                </div>
+
+                <div class="max-w-lg mx-auto bg-gray-800 p-8 rounded-2xl shadow-2xl">
+                    <form onsubmit="handleFormSubmission(event)" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                            <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg border-gray-600 bg-gray-700 text-white focus:ring-orange-500 focus:border-orange-500">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                            <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border-gray-600 bg-gray-700 text-white focus:ring-orange-500 focus:border-orange-500">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Your Inquiry</label>
+                            <textarea id="message" name="message" rows="4" required class="w-full p-3 rounded-lg border-gray-600 bg-gray-700 text-white focus:ring-orange-500 focus:border-orange-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 text-lg font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition duration-300 shadow-xl shadow-orange-500/50">
+                            Send Message
+                        </button>
+                    </form>
+                    <div id="form-message" class="mt-4 text-center hidden"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="auth-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 z-50 flex items-center justify-center p-4">
+        <div id="modal-content" class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transition-all duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="auth-title" class="text-2xl font-bold text-gray-900">Login to Replateo</h2>
+                <button class="text-gray-400 hover:text-gray-600" onclick="closeAuthModal()">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <input type="hidden" id="auth-mode" value="login">
+                <div>
+                    <label for="auth-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="auth-email" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="your@email.com">
+                </div>
+                <div>
+                    <label for="auth-password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="auth-password" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="••••••••">
+                </div>
+                <div id="auth-name-group" class="hidden">
+                    <label for="auth-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="auth-name" class="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="John Doe">
+                </div>
+                <div id="auth-message" class="text-sm text-red-500"></div>
+                
+                <button type="submit" id="auth-submit-btn" class="w-full py-3 text-lg font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition duration-300">
+                    Login
+                </button>
+            </form>
+
+            <p class="mt-4 text-center text-sm">
+                <span id="toggle-auth-text">Don't have an account?</span>
+                <button type="button" class="text-orange-600 hover:text-orange-700 font-medium" onclick="toggleAuthMode()">
+                    Register
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-lg font-semibold text-orange-400 mb-2">Replateo</p>
+            <p class="text-sm text-gray-400">&copy; 2025 Replateo Innovations. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+
+        setLogLevel('Debug');
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db;
+        let auth;
+        let userId = null;
+        let isAuthReady = false;
+
+        async function initializeFirebase() {
+            if (Object.keys(firebaseConfig).length === 0) {
+                console.error("Firebase config is missing. Cannot initialize Firestore.");
+                return;
+            }
+            
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, (user) => {
+                    isAuthReady = true;
+                    if (user) {
+                        userId = user.uid;
+                        updateUI(true, user);
+                        fetchUserProfile(user.uid);
+                    } else {
+                        userId = null;
+                        updateUI(false);
+                    }
+                    
+                    checkRoute();
+                });
+
+            } catch (error) {
+                console.error("Firebase initialization or sign-in failed:", error);
+                isAuthReady = true;
+                checkRoute();
+            }
+        }
+        
+
+        async function fetchUserProfile(uid) {
+            if (!db) return;
+            const userDocRef = doc(db, `artifacts/${appId}/users/${uid}/profile`, 'data');
+            
+            try {
+                const docSnap = await getDoc(userDocRef);
+                const userDisplayName = docSnap.exists() && docSnap.data().name ? docSnap.data().name : auth.currentUser.email || 'User';
+                document.getElementById('user-name').textContent = userDisplayName.split(' ')[0];
+                
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+            }
+        }
+        
+        async function createUserProfile(uid, name) {
+            if (!db) return;
+            const userDocRef = doc(db, `artifacts/${appId}/users/${uid}/profile`, 'data');
+            
+            try {
+                await setDoc(userDocRef, { 
+                    name: name,
+                    email: auth.currentUser.email,
+                    createdAt: new Date()
+                }, { merge: true });
+                
+                console.log("User profile created/updated successfully.");
+            } catch (error) {
+                console.error("Error creating user profile:", error);
+            }
+        }
+
+        
+
+        window.openAuthModal = function() {
+            const modal = document.getElementById('auth-modal');
+            modal.classList.remove('hidden');
+            document.getElementById('modal-content').classList.add('modal-enter');
+            setTimeout(() => {
+                document.getElementById('modal-content').classList.remove('modal-enter');
+            }, 10);
+        }
+
+        window.closeAuthModal = function() {
+            const modal = document.getElementById('auth-modal');
+            document.getElementById('modal-content').classList.add('modal-exit-active');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('modal-content').classList.remove('modal-exit-active');
+                document.getElementById('auth-message').textContent = '';
+            }, 300);
+        }
+        
+        window.toggleAuthMode = function() {
+            const mode = document.getElementById('auth-mode');
+            const title = document.getElementById('auth-title');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const nameGroup = document.getElementById('auth-name-group');
+            const toggleText = document.getElementById('toggle-auth-text');
+
+            if (mode.value === 'login') {
+                mode.value = 'register';
+                title.textContent = 'Register New Account';
+                submitBtn.textContent = 'Register';
+                nameGroup.classList.remove('hidden');
+                toggleText.textContent = 'Already have an account?';
+            } else {
+                mode.value = 'login';
+                title.textContent = 'Login to Replateo';
+                submitBtn.textContent = 'Login';
+                nameGroup.classList.add('hidden');
+                toggleText.textContent = "Don't have an account?";
+            }
+        }
+
+        window.handleAuthSubmit = async function(event) {
+            event.preventDefault();
+            const mode = document.getElementById('auth-mode').value;
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const name = document.getElementById('auth-name').value;
+            const messageElement = document.getElementById('auth-message');
+            messageElement.textContent = 'Processing...';
+
+            try {
+                if (mode === 'register') {
+                    
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    
+                    
+                    await updateProfile(userCredential.user, { displayName: name });
+                    
+                    
+                    await createUserProfile(userCredential.user.uid, name);
+                    
+                    messageElement.textContent = 'Registration successful! Redirecting...';
+                } else {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    messageElement.textContent = 'Login successful! Redirecting...';
+                }
+                setTimeout(() => {
+                    closeAuthModal();
+                    window.location.hash = '#dashboard';
+                }, 1000);
+
+            } catch (error) {
+                const errorCode = error.message.match(/\(auth\/(.*?)\)/)?.[1] || 'unknown-error';
+                messageElement.textContent = `Error: ${errorCode.replace(/-/g, ' ')}`;
+                console.error("Auth Error:", error);
+            }
+        }
+        
+        window.signOutUser = async function() {
+            try {
+                await signOut(auth);
+                alertPlaceholder('You have been signed out successfully.');
+                window.location.hash = '#home'; 
+            } catch (error) {
+                alertPlaceholder('Error signing out.');
+                console.error("Sign out error:", error);
+            }
+        }
+
+        function updateUI(loggedIn, user = null) {
+            const authButton = document.getElementById('auth-button');
+            const dashboardLink = document.getElementById('dashboard-link');
+
+            if (loggedIn) {
+                authButton.textContent = 'Sign Out';
+                authButton.onclick = signOutUser;
+                dashboardLink.classList.remove('hidden');
+                document.getElementById('dashboard-content').classList.remove('hidden');
+                document.getElementById('dashboard-unauthenticated').classList.add('hidden');
+            } else {
+                authButton.textContent = 'Login / Register';
+                authButton.onclick = openAuthModal;
+                dashboardLink.classList.add('hidden');
+                document.getElementById('dashboard-content').classList.add('hidden');
+                document.getElementById('dashboard-unauthenticated').classList.remove('hidden');
+            }
+        }
+        
+
+        const mainSections = ['home', 'good-food', 'bad-food', 'dashboard', 'directory', 'contact'];
+
+        window.route = function(hash) {
+            const targetId = hash.startsWith('#') ? hash.substring(1) : hash;
+            if (targetId && mainSections.includes(targetId)) {
+                window.location.hash = targetId;
+                showPage(targetId);
+            }
+        }
+        
+        function showPage(pageId) {
+            mainSections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    section.classList.add('hidden');
+                }
+            });
+
+            const targetSection = document.getElementById(pageId);
+            if (targetSection) {
+                
+                if (pageId === 'dashboard' && !auth?.currentUser) {
+                    document.getElementById('dashboard-unauthenticated').classList.remove('hidden');
+                    document.getElementById('dashboard-content').classList.add('hidden');
+                } else {
+                    targetSection.classList.remove('hidden');
+                }
+            } else {
+                
+                document.getElementById('home').classList.remove('hidden');
+                window.location.hash = '#home';
+            }
+            lucide.createIcons(); 
+        }
+        
+        function checkRoute() {
+            let hash = window.location.hash.substring(1);
+            if (!hash || !mainSections.includes(hash)) {
+                hash = 'home';
+            }
+            showPage(hash);
+        }
+        
+        window.onhashchange = checkRoute;
+
+        window.alertPlaceholder = function(message) {
+             const customMessageId = 'custom-temp-message';
+             let msgBox = document.getElementById(customMessageId);
+             
+             if (!msgBox) {
+                 msgBox = document.createElement('div');
+                 msgBox.id = customMessageId;
+                 msgBox.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-xl shadow-2xl transition-all duration-300 z-[60] opacity-0';
+                 document.body.appendChild(msgBox);
+             }
+             
+             msgBox.textContent = message;
+             msgBox.style.opacity = '1';
+             
+             setTimeout(() => {
+                 msgBox.style.opacity = '0';
+                 setTimeout(() => msgBox.remove(), 300);
+             }, 3000);
+        }
+
+        window.handleFormSubmission = function(event) {
+            event.preventDefault(); 
+            
+            const formMessage = document.getElementById('form-message');
+            const form = event.target;
+            const submitButton = form.querySelector('button[type="submit"]');
+            
+            submitButton.textContent = 'Sending...';
+            submitButton.disabled = true;
+
+            setTimeout(() => {
+                form.reset();
+                formMessage.classList.remove('hidden', 'text-red-400');
+                formMessage.classList.add('text-green-400');
+                formMessage.innerHTML = '<i data-lucide="check-circle" class="inline-block w-5 h-5 mr-2"></i> Thank you! Your support request has been logged.';
+
+                lucide.createIcons();
+
+                submitButton.textContent = 'Send Message';
+                submitButton.disabled = false;
+                
+                setTimeout(() => {
+                    formMessage.classList.add('hidden');
+                }, 5000);
+
+            }, 1500); 
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+             document.getElementById('mobile-menu-button').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                });
+            });
+        });
+
+        initializeFirebase(); 
+       
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+        });
+
+    </script>
+</body>
+</html>
