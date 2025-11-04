@@ -11,38 +11,94 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fefcfb;
+            background-image: url('../assets/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-group {
+            position: relative;
+        }
+        .input-group input {
+            padding-right: 40px;
+        }
+        .input-group .toggle-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        .input-group .toggle-btn:hover {
+            color: #f97316;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<body class="flex items-center justify-center min-h-screen relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-tl from-orange-200/30 via-transparent to-yellow-200/20 pointer-events-none"></div>
 
-    <div class="bg-white shadow-lg p-8 rounded-xl w-full max-w-md">
+    <div class="bg-white shadow-2xl p-8 rounded-2xl w-full max-w-md fade-in backdrop-blur-sm bg-white/95">
         <div class="text-center mb-6">
-            <img src="../assets/Logo.png" alt="Replateo Logo" class="h-12 w-auto mx-auto mb-4">
-            <h1 class="text-2xl font-bold text-gray-900">Welcome Back</h1>
+            <img src="../assets/Logo.png" alt="Replateo Logo" class="h-12 w-auto mx-auto mb-4 logo-image">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
             <p class="text-gray-600">Sign in to your Replateo account</p>
         </div>
 
         <form id="login-form" class="space-y-4">
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input type="email" id="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="your@email.com">
+                <input type="email" id="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="your@email.com">
+                <div id="email-feedback" class="text-xs text-green-600 mt-1 hidden">✓ Valid email</div>
             </div>
-            <div>
+            <div class="input-group">
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" id="password" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="••••••••">
+                <input type="password" id="password" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="••••••••">
+                <button type="button" class="toggle-btn" id="toggle-password">
+                    <i data-lucide="eye" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="flex items-center justify-between">
+                <label class="flex items-center">
+                    <input type="checkbox" id="remember-me" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                </label>
+                <a href="#" class="text-sm text-orange-600 hover:text-orange-700 font-medium" onclick="alert('Forgot password functionality coming soon!')">Forgot Password?</a>
             </div>
             <div id="error-message" class="text-sm text-red-500 hidden"></div>
-            <button type="submit" id="login-btn" class="w-full py-3 text-lg font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition duration-300">
-                Sign In
+            <button type="submit" id="login-btn" class="w-full py-3 text-lg font-semibold text-white bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl hover:from-orange-700 hover:to-orange-800 transition duration-300 shadow-lg shadow-orange-500/30 flex items-center justify-center">
+                <span id="btn-text">Sign In</span>
+                <div id="spinner" class="loading-spinner ml-2 hidden"></div>
             </button>
         </form>
 
-        <p class="text-center text-sm mt-6">
-            Don't have an account?
-            <a href="register.html" class="text-orange-600 hover:text-orange-700 font-medium">Create one here</a>
-        </p>
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">
+                Don't have an account?
+                <a href="register.html" class="text-orange-600 hover:text-orange-700 font-medium transition duration-200">Create one here</a>
+            </p>
+        </div>
     </div>
 
     <script type="module">
@@ -61,30 +117,91 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // Password toggle functionality
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                passwordInput.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        });
+
+        // Email validation feedback
+        document.getElementById('email').addEventListener('input', function() {
+            const emailFeedback = document.getElementById('email-feedback');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (this.value && emailRegex.test(this.value)) {
+                emailFeedback.classList.remove('hidden');
+            } else {
+                emailFeedback.classList.add('hidden');
+            }
+        });
+
+        // Remember me functionality (localStorage)
+        document.addEventListener('DOMContentLoaded', function() {
+            const rememberMe = localStorage.getItem('rememberMe') === 'true';
+            const email = localStorage.getItem('email');
+            if (rememberMe && email) {
+                document.getElementById('email').value = email;
+                document.getElementById('remember-me').checked = true;
+            }
+        });
+
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
             const errorMessage = document.getElementById('error-message');
             const loginBtn = document.getElementById('login-btn');
+            const btnText = document.getElementById('btn-text');
+            const spinner = document.getElementById('spinner');
 
             errorMessage.classList.add('hidden');
-            loginBtn.textContent = 'Signing In...';
+            btnText.textContent = 'Signing In...';
+            spinner.classList.remove('hidden');
             loginBtn.disabled = true;
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                alert('Login successful! Redirecting to dashboard...');
-                window.location.href = 'dashboard.html';
+
+                // Handle remember me
+                if (rememberMe) {
+                    localStorage.setItem('rememberMe', 'true');
+                    localStorage.setItem('email', email);
+                } else {
+                    localStorage.removeItem('rememberMe');
+                    localStorage.removeItem('email');
+                }
+
+                // Success animation
+                loginBtn.classList.add('bg-green-600');
+                btnText.textContent = 'Success!';
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
             } catch (error) {
                 const errorCode = error.message.match(/\(auth\/(.*?)\)/)?.[1] || 'unknown-error';
                 errorMessage.textContent = `Error: ${errorCode.replace(/-/g, ' ')}`;
                 errorMessage.classList.remove('hidden');
                 console.error("Login error:", error);
             } finally {
-                loginBtn.textContent = 'Sign In';
-                loginBtn.disabled = false;
+                if (!errorMessage.classList.contains('hidden')) {
+                    btnText.textContent = 'Sign In';
+                    spinner.classList.add('hidden');
+                    loginBtn.disabled = false;
+                }
             }
+        });
+
+        // Initialize Lucide icons
+        window.addEventListener('load', () => {
+            lucide.createIcons();
         });
     </script>
 </body>

@@ -11,46 +11,127 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fefcfb;
+            background-image: url('../assets/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-group {
+            position: relative;
+        }
+        .input-group input {
+            padding-right: 40px;
+        }
+        .input-group .toggle-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        .input-group .toggle-btn:hover {
+            color: #f97316;
+        }
+        .password-strength {
+            display: flex;
+            gap: 2px;
+            margin-top: 4px;
+        }
+        .strength-bar {
+            height: 4px;
+            flex: 1;
+            border-radius: 2px;
+            background-color: #e5e7eb;
+            transition: background-color 0.3s ease;
+        }
+        .strength-weak { background-color: #ef4444; }
+        .strength-medium { background-color: #f59e0b; }
+        .strength-strong { background-color: #10b981; }
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<body class="flex items-center justify-center min-h-screen relative">
+    <div class="absolute inset-0 bg-gradient-to-tl from-orange-200/30 via-transparent to-yellow-200/20 pointer-events-none"></div>
 
-    <div class="bg-white shadow-lg p-8 rounded-xl w-full max-w-md">
+    <div class="bg-white shadow-2xl p-8 rounded-2xl w-full max-w-md fade-in backdrop-blur-sm bg-white/95">
         <div class="text-center mb-6">
-            <img src="../assets/Logo.png" alt="Replateo Logo" class="h-12 w-auto mx-auto mb-4">
-            <h1 class="text-2xl font-bold text-gray-900">Create Your Account</h1>
+            <img src="../assets/Logo.png" alt="Replateo Logo" class="h-12 w-auto mx-auto mb-4 logo-image">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Create Your Account</h1>
             <p class="text-gray-600">Join Replateo to start making a difference</p>
         </div>
 
         <form id="register-form" class="space-y-4">
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                <input type="text" id="name" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="John Doe">
+                <input type="text" id="name" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="John Doe">
+                <div id="name-feedback" class="text-xs text-green-600 mt-1 hidden">✓ Name looks good</div>
             </div>
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input type="email" id="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="your@email.com">
+                <input type="email" id="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="your@email.com">
+                <div id="email-feedback" class="text-xs text-green-600 mt-1 hidden">✓ Valid email</div>
             </div>
-            <div>
+            <div class="input-group">
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" id="password" required minlength="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="••••••••">
+                <input type="password" id="password" required minlength="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="••••••••">
+                <button type="button" class="toggle-btn" id="toggle-password">
+                    <i data-lucide="eye" class="w-5 h-5"></i>
+                </button>
+                <div class="password-strength">
+                    <div class="strength-bar" id="strength-1"></div>
+                    <div class="strength-bar" id="strength-2"></div>
+                    <div class="strength-bar" id="strength-3"></div>
+                </div>
+                <div id="password-feedback" class="text-xs text-gray-500 mt-1">Password must be at least 6 characters</div>
             </div>
-            <div>
+            <div class="input-group">
                 <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                <input type="password" id="confirm-password" required minlength="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" placeholder="••••••••">
+                <input type="password" id="confirm-password" required minlength="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-200" placeholder="••••••••">
+                <button type="button" class="toggle-btn" id="toggle-confirm-password">
+                    <i data-lucide="eye" class="w-5 h-5"></i>
+                </button>
+                <div id="confirm-feedback" class="text-xs text-green-600 mt-1 hidden">✓ Passwords match</div>
+            </div>
+            <div class="flex items-start">
+                <input type="checkbox" id="terms" required class="mt-1 rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                <label for="terms" class="ml-2 text-sm text-gray-600">
+                    I agree to the <a href="#" class="text-orange-600 hover:text-orange-700 font-medium">Terms of Service</a> and <a href="#" class="text-orange-600 hover:text-orange-700 font-medium">Privacy Policy</a>
+                </label>
             </div>
             <div id="error-message" class="text-sm text-red-500 hidden"></div>
-            <button type="submit" id="register-btn" class="w-full py-3 text-lg font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition duration-300">
-                Create Account
+            <button type="submit" id="register-btn" class="w-full py-3 text-lg font-semibold text-white bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl hover:from-orange-700 hover:to-orange-800 transition duration-300 shadow-lg shadow-orange-500/30 flex items-center justify-center">
+                <span id="btn-text">Create Account</span>
+                <div id="spinner" class="loading-spinner ml-2 hidden"></div>
             </button>
         </form>
 
-        <p class="text-center text-sm mt-6">
-            Already have an account?
-            <a href="login.html" class="text-orange-600 hover:text-orange-700 font-medium">Login here</a>
-        </p>
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">
+                Already have an account?
+                <a href="login.html" class="text-orange-600 hover:text-orange-700 font-medium transition duration-200">Login here</a>
+            </p>
+        </div>
     </div>
 
     <script type="module">
@@ -71,26 +152,129 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Password toggle functionality
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                passwordInput.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        });
+
+        document.getElementById('toggle-confirm-password').addEventListener('click', function() {
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const icon = this.querySelector('i');
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                confirmPasswordInput.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        });
+
+        // Real-time validations
+        document.getElementById('name').addEventListener('input', function() {
+            const nameFeedback = document.getElementById('name-feedback');
+            if (this.value.trim().length >= 2) {
+                nameFeedback.classList.remove('hidden');
+            } else {
+                nameFeedback.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('email').addEventListener('input', function() {
+            const emailFeedback = document.getElementById('email-feedback');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (this.value && emailRegex.test(this.value)) {
+                emailFeedback.classList.remove('hidden');
+            } else {
+                emailFeedback.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBars = ['strength-1', 'strength-2', 'strength-3'];
+            const passwordFeedback = document.getElementById('password-feedback');
+
+            // Reset all bars
+            strengthBars.forEach(id => {
+                document.getElementById(id).className = 'strength-bar';
+            });
+
+            if (password.length >= 6) {
+                if (password.length >= 8 && /[A-Z]/.test(password) && /[0-9]/.test(password)) {
+                    // Strong
+                    strengthBars.forEach(id => {
+                        document.getElementById(id).classList.add('strength-strong');
+                    });
+                    passwordFeedback.textContent = 'Strong password';
+                    passwordFeedback.className = 'text-xs text-green-600 mt-1';
+                } else if (password.length >= 8 || /[A-Z]/.test(password) || /[0-9]/.test(password)) {
+                    // Medium
+                    document.getElementById('strength-1').classList.add('strength-medium');
+                    document.getElementById('strength-2').classList.add('strength-medium');
+                    passwordFeedback.textContent = 'Medium strength - add uppercase or numbers';
+                    passwordFeedback.className = 'text-xs text-yellow-600 mt-1';
+                } else {
+                    // Weak
+                    document.getElementById('strength-1').classList.add('strength-weak');
+                    passwordFeedback.textContent = 'Weak password - add uppercase and numbers';
+                    passwordFeedback.className = 'text-xs text-red-600 mt-1';
+                }
+            } else {
+                passwordFeedback.textContent = 'Password must be at least 6 characters';
+                passwordFeedback.className = 'text-xs text-gray-500 mt-1';
+            }
+        });
+
+        document.getElementById('confirm-password').addEventListener('input', function() {
+            const confirmFeedback = document.getElementById('confirm-feedback');
+            const password = document.getElementById('password').value;
+            if (this.value && this.value === password) {
+                confirmFeedback.classList.remove('hidden');
+            } else {
+                confirmFeedback.classList.add('hidden');
+            }
+        });
+
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
+            const terms = document.getElementById('terms').checked;
             const errorMessage = document.getElementById('error-message');
             const registerBtn = document.getElementById('register-btn');
+            const btnText = document.getElementById('btn-text');
+            const spinner = document.getElementById('spinner');
 
             errorMessage.classList.add('hidden');
-            registerBtn.textContent = 'Creating Account...';
-            registerBtn.disabled = true;
+
+            // Client-side validations
+            if (!terms) {
+                errorMessage.textContent = 'Please agree to the Terms of Service and Privacy Policy.';
+                errorMessage.classList.remove('hidden');
+                return;
+            }
 
             if (password !== confirmPassword) {
                 errorMessage.textContent = 'Passwords do not match.';
                 errorMessage.classList.remove('hidden');
-                registerBtn.textContent = 'Create Account';
-                registerBtn.disabled = false;
                 return;
             }
+
+            btnText.textContent = 'Creating Account...';
+            spinner.classList.remove('hidden');
+            registerBtn.disabled = true;
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -103,17 +287,29 @@
                     createdAt: new Date()
                 });
 
-                alert('Registration successful! Redirecting to dashboard...');
-                window.location.href = 'dashboard.html';
+                // Success animation
+                registerBtn.classList.add('bg-green-600');
+                btnText.textContent = 'Success!';
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
             } catch (error) {
                 const errorCode = error.message.match(/\(auth\/(.*?)\)/)?.[1] || 'unknown-error';
                 errorMessage.textContent = `Error: ${errorCode.replace(/-/g, ' ')}`;
                 errorMessage.classList.remove('hidden');
                 console.error("Registration error:", error);
             } finally {
-                registerBtn.textContent = 'Create Account';
-                registerBtn.disabled = false;
+                if (!errorMessage.classList.contains('hidden')) {
+                    btnText.textContent = 'Create Account';
+                    spinner.classList.add('hidden');
+                    registerBtn.disabled = false;
+                }
             }
+        });
+
+        // Initialize Lucide icons
+        window.addEventListener('load', () => {
+            lucide.createIcons();
         });
     </script>
 </body>

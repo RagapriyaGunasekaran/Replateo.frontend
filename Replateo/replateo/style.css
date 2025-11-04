@@ -2,12 +2,112 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+nav {
+  background: linear-gradient(to right, #ffedd5, #fb923c);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+}
+
 button {
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.6);
 }
 
 input:focus {
   outline: none;
   border-color: #22c55e;
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+}
+
+.logo-image {
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.logo-image:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+.home-bg {
+  background: linear-gradient(135deg, #ffedd5 0%, #fb923c 50%, #f97316 100%);
+  box-shadow: inset 0 0 200px rgba(249, 115, 22, 0.3), 0 0 50px rgba(249, 115, 22, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(255, 237, 213, 0.4) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(249, 115, 22, 0.2) 0%, transparent 50%);
+}
+
+:root{
+  --replateo-glow-r: 249;
+  --replateo-glow-g: 115;
+  --replateo-glow-b: 22;
+  --replateo-glow-strong: rgba(249,115,22,0.22);
+  --replateo-glow-soft: rgba(255,210,140,0.10);
+}
+
+/* ensure page area for overlay */
+html, body {
+  height: 100%;
+}
+
+/* put main content above the glow layer */
+#app-content {
+  position: relative;
+  z-index: 10;
+}
+
+/* full-page animated glow overlay (behind content) */
+.page-glow{
+  position: fixed;
+  inset: -10%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(40% 30% at 10% 20%, rgba(var(--replateo-glow-r), var(--replateo-glow-g), var(--replateo-glow-b), 0.24) 0%, transparent 30%),
+    radial-gradient(50% 35% at 85% 80%, rgba(var(--replateo-glow-r), var(--replateo-glow-g), var(--replateo-glow-b), 0.16) 0%, transparent 35%),
+    linear-gradient(180deg, rgba(255,250,245,0.02), rgba(255,241,224,0.02));
+  filter: blur(44px) saturate(120%);
+  opacity: 1;
+  animation: replateo-pulse 8s ease-in-out infinite;
+}
+
+/* subtle pulsing */
+@keyframes replateo-pulse {
+  0%   { transform: scale(1);    opacity: 0.95; filter: blur(40px) saturate(110%); }
+  50%  { transform: scale(1.02); opacity: 1;    filter: blur(28px) saturate(135%); }
+  100% { transform: scale(1);    opacity: 0.95; filter: blur(40px) saturate(110%); }
+}
+
+/* gentle text glow across page */
+body, h1, h2, h3, p, a, button {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+/* add ambient glow to interactive elements/cards */
+button, .rounded-xl, .rounded-2xl, .shadow-xl, .shadow-2xl, .p-6, .p-8 {
+  transition: box-shadow 250ms ease, transform 200ms ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 0 30px rgba(var(--replateo-glow-r),var(--replateo-glow-g),var(--replateo-glow-b),0.04);
+}
+
+/* intensify on hover/focus */
+button:hover, button:focus, .hover\:shadow-xl:hover {
+  box-shadow: 0 14px 40px rgba(0,0,0,0.08), 0 0 50px rgba(var(--replateo-glow-r),var(--replateo-glow-g),var(--replateo-glow-b),0.10);
+  transform: translateY(-2px);
+}
+
+/* smaller glow for subtle elements */
+.bg-white, .bg-gray-50, .bg-orange-50 {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04), 0 0 26px rgba(var(--replateo-glow-r),var(--replateo-glow-g),var(--replateo-glow-b),0.03);
 }

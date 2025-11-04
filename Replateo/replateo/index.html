@@ -12,7 +12,14 @@
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
-            background-color: #fefcfb; 
+            background: radial-gradient(circle at center,
+                #cd862a 0%,
+                #e1ab14e3 33%,
+                #d38c3a 33%,
+                #f48302 66%,
+                #e2620d 100%);
+            box-shadow: inset 0 0 100px rgba(249, 115, 22, 0.3);
+            position: relative;
         }
         .section-padding {
             padding: 4rem 1.5rem;
@@ -37,16 +44,19 @@
         .modal-exit-active {
             opacity: 0;
         }
+
     </style>
 </head>
 <body class="text-gray-800">
+     <!-- full-page animated glow overlay (visual only) -->
+    <div class="page-glow" aria-hidden="true"></div>
+    <header class="sticky top-0 z-50 bg-white shadow-lg shadow-orange-500/30">
 
->
-    <header class="sticky top-0 z-50 bg-white shadow-lg">
+    
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <a href="#home" class="flex-shrink-0 flex items-center" onclick="route('#home')">
-                    <img src="../assets/Logo.png" alt="Replateo Logo" class="h-12 w-auto">
+                    <img src="../assets/Logo.png" alt="Replateo Logo" class="h-12 w-auto logo-image">
                 </a>
                 
                 <div class="hidden md:flex space-x-8 text-sm font-medium">
@@ -92,17 +102,17 @@
                         Our mission is to connect surplus food with those who need it and ensure non-edible waste is responsibly recycled, fostering a healthier, more sustainable community.
                     </p>
                     <div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="#good-food" onclick="route('#good-food')" class="px-8 py-3 text-lg font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition duration-300 shadow-xl shadow-orange-200 text-center">
+                        <a href="#good-food" onclick="route('#good-food')" class="px-8 py-3 text-lg font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition duration-300 shadow-xl shadow-orange-500/50 text-center">
                             I Have Food to Share
                         </a>
-                        <a href="#bad-food" onclick="route('#bad-food')" class="px-8 py-3 text-lg font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition duration-300 shadow-md text-center">
+                        <a href="#bad-food" onclick="route('#bad-food')" class="px-8 py-3 text-lg font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition duration-300 shadow-md shadow-orange-500/30 text-center">
                             I Need to Recycle
                         </a>
                     </div>
                 </div>
 
                 <div class="hidden md:block">
-                    <svg class="w-full h-auto rounded-xl shadow-2xl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+                    <svg class="w-full h-auto rounded-xl shadow-2xl shadow-orange-500/30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
                         <rect width="800" height="500" fill="#FFFBEB" rx="20"/>
                         <path d="M400 250 L400 250 L400 150 A100 100 0 1 1 400 350 L400 250 Z" fill="#F97316" opacity="0.1"/>
                         <path d="M400 150 A100 100 0 1 1 400 350 A100 100 0 1 1 400 150" stroke="#F97316" stroke-width="15" fill="none"/>
@@ -122,27 +132,25 @@
                 <p class="text-xl text-gray-600 mb-12">Connect food that is safe for consumption with those who can use it—whether through donation or a discounted sale.</p>
 
                 <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-orange-500">
+                    <div class="bg-white p-6 rounded-2xl shadow-xl shadow-orange-500/30 border-t-4 border-orange-500">
                         <i data-lucide="hand-heart" class="w-10 h-10 text-orange-600 mx-auto mb-4"></i>
                         <h3 class="text-xl font-bold mb-3">Donation</h3>
                         <p class="text-gray-600 mb-4">Give your surplus food directly to local NGOs and charities for free.</p>
                         <a href="../pages/donate.html" class="bg-orange-600 text-white py-2 px-6 rounded-lg hover:bg-orange-700 transition inline-block">Start Donation</a>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-orange-500">
+                    <div class="bg-white p-6 rounded-2xl shadow-xl shadow-orange-500/30 border-t-4 border-orange-500">
                         <i data-lucide="tag" class="w-10 h-10 text-orange-600 mx-auto mb-4"></i>
                         <h3 class="text-xl font-bold mb-3">Discounted Sale</h3>
                         <p class="text-gray-600 mb-4">List items for individuals or businesses to purchase at a reduced rate.</p>
                         <button class="bg-orange-600 text-white py-2 px-6 rounded-lg hover:bg-orange-700 transition" onclick="alertPlaceholder('Sale listing form will open')">List for Sale</button>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-orange-500">
+                    <div class="bg-white p-6 rounded-2xl shadow-xl shadow-orange-500/30 border-t-4 border-orange-500">
                         <i data-lucide="upload-cloud" class="w-10 h-10 text-orange-600 mx-auto mb-4"></i>
                         <h3 class="text-xl font-bold mb-3">Upload Listing</h3>
                         <p class="text-gray-600 mb-4">Upload details and photos of your available good food items now.</p>
                         <button class="bg-gray-300 text-gray-700 py-2 px-6 rounded-lg cursor-not-allowed">View Listings</button>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -311,6 +319,10 @@
             <p class="text-sm text-gray-400">&copy; 2025 Replateo Innovations. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Animated Cooking Pot -->
+    <div class="cooking-pot">
+        <div class="pot">
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
